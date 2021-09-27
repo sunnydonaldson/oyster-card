@@ -30,4 +30,31 @@ describe Oystercard do
       expect{ subject.charge(30)}.to raise_error 'breaches minimum amount'
     end
   end
+
+  describe "#touch_in" do
+    it "signs user in" do
+      subject.touch_in
+      expect(subject.instance_variable_get(:@in_use)).to eq(true)
+    end
+
+    it "throws error if is signed in" do
+      subject.touch_in
+      expect{subject.touch_in}.to raise_error 'already in journey'
+    end
+  end
+
+  describe "#touch_out" do
+    it "signs user out" do
+      subject.touch_in
+      subject.touch_out
+
+      expect(subject.instance_variable_get(:@in_use)).to eq(false)
+    end
+    
+    it "throws error if user isn't signed in" do
+      expect{subject.touch_out}.to raise_error "not in journey"
+    end
+  end
+  
+
 end
