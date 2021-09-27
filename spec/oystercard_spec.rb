@@ -9,8 +9,12 @@ describe Oystercard do
 
   describe '#add' do
     it 'add money to card' do
-      subject.add(100)
-      expect(subject.instance_variable_get(:@balance)).to eq 100
+      subject.add(50)
+      expect(subject.instance_variable_get(:@balance)).to eq 50
+    end
+
+    it 'has limit of 100£' do
+      expect{ subject.add(101)}.to raise_error 'breaches maximum amount'
     end
   end
 end
